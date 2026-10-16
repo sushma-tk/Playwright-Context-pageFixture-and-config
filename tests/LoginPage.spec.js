@@ -8,7 +8,7 @@ test('Login page smoke test', async ({ page }) => {
   await expect(page).toHaveTitle(/EventHub/);
 
   // Verify email field is visible
-  const emailField = page.getByPlaceholder('you@email.com');
+  const emailField = page.getByLabel('Email', { exact: true });
   await expect(emailField).toBeVisible();
 
   // Verify Sign In button is visible
@@ -19,7 +19,7 @@ test('Fixture page and isolated context', async ({page,browser}) => {
   // Use the built-in page fixture
   await page.goto('/login');
 
-  const emailField = page.getByPlaceholder('you@email.com');
+  const emailField = page.getByLabel('Email', { exact: true });
 
   // Fill email field
   await emailField.fill('beginner@sample.com');
@@ -34,13 +34,13 @@ test('Fixture page and isolated context', async ({page,browser}) => {
   const isolatedPage = await context.newPage();
 
   // Open login page using the full URL
-  await isolatedPage.goto("https://eventhub.rahulshettyacademy.com/login");
+  await isolatedPage.goto('/login');
 
   // Verify heading is visible
   await expect(isolatedPage.getByRole('heading',{name:'Sign in to EventHub'})).toBeVisible();
 
   // Verify email field starts empty
-  const isolatedEmail = isolatedPage.getByPlaceholder('you@email.com');
+  const isolatedEmail = isolatedPage.getByLabel('Email', { exact: true });
 
   await expect(isolatedEmail).toHaveValue('');
 
